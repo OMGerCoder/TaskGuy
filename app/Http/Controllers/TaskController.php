@@ -38,6 +38,8 @@ class TaskController extends Controller
     {
         $task = new Task();
         $task->name = request('name');
+        $task->save();
+        return redirect('/tasks');
     }
 
     /**
