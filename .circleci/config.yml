@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install deps via Composer
+          command: composer install
+
+      - run:
+          name: Install deps via NPM
+          command: npm install
+      - run:
+          name: Create .env
+          command: cp .env.example .env
+      - run:
+          name: Generate key
+          command: php artisan key:generate
+      - run:
+          name: Create DB
+          command: touch database/database.sqlite
+      - run:
+          name: Run migrations
+          command: php artisan migrate
+      - run:
+          name: Run tests
+          command ./vendor/bin/phpunit
